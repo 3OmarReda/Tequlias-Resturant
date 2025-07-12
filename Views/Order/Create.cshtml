@@ -1,0 +1,94 @@
+﻿@model OrderViewModel
+@{
+    ViewBag.Title = "Create Order";
+}
+
+<style>
+    h1 {
+        font-weight: 800;
+        color: #d67a49;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #d67a49;
+        padding-bottom: 10px;
+    }
+
+    .card-custom {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(214, 122, 73, 0.25);
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+
+    .card-custom:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 20px rgba(214, 122, 73, 0.4);
+    }
+
+    .card-img-top {
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .btn-custom {
+        background-color: #d67a49;
+        color: white;
+        font-weight: 600;
+        border-radius: 25px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #b65c2e;
+        color: white;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(214, 122, 73, 0.1);
+    }
+
+    .product-name {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    .product-price {
+        color: #d67a49;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+</style>
+
+<h1>@ViewBag.Title</h1>
+
+<div class="row">
+    @foreach (Product product in Model.Products)
+    {
+        <div class="col-md-4 mb-4">
+            <form asp-action="AddItem" method="post">
+                <div class="card card-custom h-100 d-flex flex-column justify-content-between">
+                    <img src="@Url.Content("~/images/" + product?.ImageUrl)" class="card-img-top" alt="@product.Descrition" />
+                    <div class="card-body d-flex flex-column">
+                        <div class="product-name">@product.Name</div>
+                        <div class="product-price">@product.Price.ToString("C")</div>
+
+                        <input type="hidden" name="prodId" value="@product.ProductId" />
+
+                        <div class="mb-3">
+                            <input type="number" name="prodQty" class="form-control" min="1" placeholder="Enter quantity" />
+                        </div>
+
+                        <button type="submit" class="btn btn-custom mt-auto">Add</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    }
+</div>

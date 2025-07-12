@@ -1,0 +1,141 @@
+﻿@page
+@model RegisterModel
+@{
+   
+    ViewData["Title"] = "Register";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: url('/images/Restaurant_Bacround.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 0;
+        }
+
+        .center-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .register-form-wrapper {
+            max-width: 500px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+            .register-form-wrapper h1 {
+                font-size: 28px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                color: #d67a49;
+                text-align: center;
+            }
+
+        .form-floating > input,
+        .form-check-input {
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        .form-check-label {
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #d67a49;
+            border: none;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 10px;
+            transition: 0.3s ease-in-out;
+        }
+
+            .btn-primary:hover {
+                background-color: #b65f2c;
+            }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="center-wrapper">
+        <div class="register-form-wrapper">
+            <h1>Create Your Account</h1>
+
+            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" placeholder="name@example.com" />
+                    <label asp-for="Input.Email">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" placeholder="Password" />
+                    <label asp-for="Input.Password">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirm Password" />
+                    <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Register As</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="Input.Role" value="User" checked />
+                        <label class="form-check-label">User</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="Input.Role" value="Admin" />
+                        <label class="form-check-label">Admin</label>
+                    </div>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="w-100 btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <partial name="_ValidationScriptsPartial" />
+</body>
+</html>

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<h2 class="fw-bold text-uppercase" style="color: #fd7e14; border-bottom: 2px solid #fd7e14; padding-bottom: 0.5rem; margin-bottom: 1.5rem;">
+    @ViewData["Title"]
+</h2>
+<div class="table-responsive">
+    <table class="table table-hover shadow-sm rounded">
+        <thead class="table-light text-center">
+            <tr class="align-middle">
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Total Amount</th>
+                <th>Order Items</th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@order.OrderId</td>
+                    <td>@order.OrderDate.ToString("MM/dd/yyyy")</td>
+                    <td class="text-success fw-semibold">@order.TotalAmount.ToString("C")</td>
+                    <td>
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var item in order.OrderItems)
+                            {
+                                <li>
+                                    <span class="fw-semibold">@item.Product.Name</span>
+                                    <span class="text-muted">- @item.Quantity × @item.Price.ToString("C")</span>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

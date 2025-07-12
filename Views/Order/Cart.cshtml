@@ -1,0 +1,90 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "My Cart";
+}
+
+<h2 class="section-title">@ViewData["Title"]</h2>
+
+@if (Model.OrderItems.Any())
+{
+    <form asp-action="PlaceOrder" method="post">
+        <div class="table-responsive shadow rounded-4 overflow-hidden">
+            <table class="table align-middle mb-0 bg-white">
+                <thead class="bg-light text-uppercase">
+                    <tr>
+                        <th class="fw-bold">Product</th>
+                        <th class="fw-bold">Quantity</th>
+                        <th class="fw-bold">Price</th>
+                        <th class="fw-bold">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.OrderItems)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@item.ProductName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Price.ToString("C")</td>
+                            <td>$@(item.Price * item.Quantity)</td>
+                        </tr>
+                    }
+                    <tr class="fw-bold">
+                        <td colspan="3" class="text-end pe-3 align-middle text-center" style="background-color: #f8f9fa; border-radius: 15px 0 0 15px;">
+                            Total Amount
+                        </td>
+                        <td style="background-color: #d67a49; color: white; border-radius: 0 15px 15px 0;">
+                            @Model.TotalAmount.ToString("C")
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end mt-4">
+            <input type="submit" value="Place Order" class="btn btn-custom px-5 py-2" />
+        </div>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning mt-4 shadow-sm rounded-3">
+        Your cart is empty.
+    </div>
+}
+
+<style>
+    .section-title {
+        font-weight: 800;
+        color: #d67a49;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid #d67a49;
+        padding-bottom: 10px;
+    }
+
+    .btn-custom {
+        background-color: #d67a49;
+        color: white;
+        font-weight: 600;
+        border-radius: 25px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-custom:hover {
+            background-color: #b65c2e;
+            color: white;
+        }
+
+    table th, table td {
+        vertical-align: middle;
+        padding: 1rem;
+    }
+
+    .table-responsive {
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(214, 122, 73, 0.15);
+    }
+</style>

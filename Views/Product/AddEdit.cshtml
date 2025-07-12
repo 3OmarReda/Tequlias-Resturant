@@ -1,0 +1,116 @@
+﻿@model Product
+@{
+	ViewData["Title"] = $"{ViewBag.Operation} menu item";
+}
+
+<style>
+	.form-section-title {
+		font-weight: 800;
+		color: #d67a49;
+		margin-bottom: 20px;
+		text-transform: uppercase;
+		letter-spacing: 2px;
+		border-bottom: 2px solid #d67a49;
+		padding-bottom: 10px;
+	}
+
+	.form-control,
+	.form-check-input {
+		border-radius: 12px;
+		box-shadow: 0 2px 6px rgba(214, 122, 73, 0.1);
+	}
+
+	.btn-primary {
+		background-color: #d67a49;
+		border: none;
+		border-radius: 25px;
+		font-weight: 600;
+		box-shadow: 0 3px 8px rgba(214, 122, 73, 0.6);
+	}
+
+	.btn-primary:hover {
+		background-color: #b65c2e;
+	}
+
+	.btn-outline-dark {
+		border-radius: 25px;
+		font-weight: 600;
+	}
+
+	.form-check-label {
+		margin-left: 8px;
+	}
+</style>
+
+<h1 class="form-section-title">@ViewBag.Operation menu item</h1>
+
+<form asp-action="AddEdit" method="post" enctype="multipart/form-data">
+	<input type="hidden" asp-for="ProductId" />
+	<input type="hidden" asp-for="CategoryId" />
+
+	<div class="form-group mb-3">
+		<label asp-for="Name" class="form-label"></label>
+		<input asp-for="Name" class="form-control" name="Name" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3">
+		<label asp-for="Descrition" class="form-label"></label>
+		<input asp-for="Descrition" class="form-control" name="Descrition" />
+		<span asp-validation-for="Descrition" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3">
+		<label asp-for="Price" class="form-label"></label>
+		<input asp-for="Price" class="form-control" name="Price" value="@(Model.Price > 0 ? Model.Price.ToString() : "")" />
+		<span asp-validation-for="Price" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-3">
+		<label asp-for="Stock" class="form-label">Quantity in stock</label>
+		<input asp-for="Stock" class="form-control" name="Stock" />
+		<span asp-validation-for="Stock" class="text-danger"></span>
+	</div>
+
+	<div class="form-group mb-4">
+		<label for="imageUpload" class="form-label">Upload Image</label>
+		<input type="file" class="form-control" id="imageUpload" name="ImageFile" asp-for="ImageFile" />
+	</div>
+
+	<div class="row mb-4">
+		<div class="col-md-6">
+			<h5 class="form-section-title" style="font-size: 1.2rem;">Choose Category</h5>
+			@foreach (Category category in ViewBag.Categories)
+			{
+				<div class="form-check mb-2">
+					@{
+						bool isChecked = Model.CategoryId == category.CaregoryId;
+					}
+					<input type="radio" class="form-check-input" id="@category.CaregoryId" name="catId" value="@category.CaregoryId"
+					@(isChecked ? "checked" : "") />
+					<label class="form-check-label" for="@category.CaregoryId">@category.Name</label>
+				</div>
+			}
+		</div>
+
+		<div class="col-md-6">
+			<h5 class="form-section-title" style="font-size: 1.2rem;">Ingredients</h5>
+			@foreach (Ingredient ingredient in ViewBag.Ingredients)
+			{
+				<div class="form-check mb-2">
+					@{
+						bool isChecked = Model.ProductIngredients != null && Model.ProductIngredients.Any(i => i.IngredientId == ingredient.IngredientId);
+					}
+					<input type="checkbox" class="form-check-input" id="@ingredient.IngredientId" name="ingredientIds" value="@ingredient.IngredientId"
+					@(isChecked ? "checked" : "") />
+					<label class="form-check-label" for="@ingredient.IngredientId">@ingredient.Name</label>
+				</div>
+			}
+		</div>
+	</div>
+
+	<div class="d-flex gap-3">
+		<button type="submit" class="btn btn-primary">Save</button>
+		<a asp-action="Index" asp-controller="Product" class="btn btn-outline-dark">Cancel</a>
+	</div>
+</form>

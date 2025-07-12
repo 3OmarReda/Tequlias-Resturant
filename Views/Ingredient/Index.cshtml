@@ -1,0 +1,199 @@
+﻿@model IEnumerable<TequliasResturant.Models.Ingredient>
+@{
+	ViewBag.Title = "List of Restaurant Ingredients";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+	body {
+		overflow-x: hidden;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		background-color: #fff8f0;
+		color: #3e2f25;
+		padding: 20px 30px;
+	}
+
+	h1 {
+		font-weight: 800;
+		margin-bottom: 2rem;
+		color: #d67a49;
+		text-transform: uppercase;
+		letter-spacing: 3px;
+		border-bottom: 3px solid #d67a49;
+		padding-bottom: 10px;
+	}
+
+	table.custom-table {
+		width: 100%;
+		border-collapse: separate;
+		border-spacing: 0 15px;
+		box-shadow: 0 4px 15px rgba(214, 122, 73, 0.3);
+		border-radius: 12px;
+		overflow: hidden;
+		background: white;
+		font-size: 1rem;
+	}
+
+		table.custom-table thead tr {
+			background-color: #d67a49;
+			color: white;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 1.5px;
+			font-size: 1.1rem;
+		}
+
+			table.custom-table thead tr th {
+				padding: 15px 20px;
+			}
+
+		table.custom-table tbody tr {
+			background: white;
+			box-shadow: 0 4px 12px rgba(214, 122, 73, 0.15);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			cursor: pointer;
+			border-radius: 10px;
+			margin-bottom: 15px;
+			display: table-row;
+		}
+
+			table.custom-table tbody tr:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 10px 20px rgba(214, 122, 73, 0.4);
+			}
+
+			table.custom-table tbody tr td {
+				padding: 15px 20px;
+				vertical-align: middle;
+			}
+
+	.btn-details {
+		background-color: #d67a49;
+		border: none;
+		color: white;
+		padding: 8px 18px;
+		border-radius: 25px;
+		font-weight: 600;
+		box-shadow: 0 3px 8px rgba(214, 122, 73, 0.6);
+		transition: background-color 0.3s ease, box-shadow 0.3s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+
+	.btn-delete {
+		background-color: #e74c3c;
+		border: none;
+		color: white;
+		padding: 8px 18px;
+		border-radius: 25px;
+		font-weight: 600;
+		box-shadow: 0 3px 8px rgba(231, 76, 60, 0.6);
+		transition: background-color 0.3s ease, box-shadow 0.3s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+
+		.btn-delete:hover {
+			background-color: #c0392b;
+			box-shadow: 0 5px 15px rgba(192, 57, 43, 0.8);
+			color: white;
+			text-decoration: none;
+		}
+
+	.btn-details:hover {
+		background-color: #b65c2e;
+		box-shadow: 0 5px 15px rgba(182, 92, 46, 0.8);
+		text-decoration: none;
+		color: white;
+	}
+
+	.btn-details i {
+		font-size: 1.1rem;
+	}
+
+	td a.btn-details, td a.btn-delete {
+		display: inline-block;
+	}
+
+	.btn-edit {
+		background-color: #3498db;
+		border: none;
+		color: white;
+		padding: 8px 18px;
+		border-radius: 25px;
+		font-weight: 600;
+		box-shadow: 0 3px 8px rgba(52, 152, 219, 0.6);
+		transition: background-color 0.3s ease, box-shadow 0.3s ease;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		text-decoration: none;
+		font-size: 0.95rem;
+	}
+
+		.btn-edit:hover {
+			background-color: #2980b9;
+			box-shadow: 0 5px 15px rgba(41, 128, 185, 0.8);
+			text-decoration: none;
+			color: white;
+		}
+
+		.btn-edit i {
+			font-size: 1.1rem;
+		}
+
+
+</style>
+
+<h1>Ingredients</h1>
+
+<a asp-action="Create" class="btn-details" style="margin-bottom: 20px; display: inline-block;">
+	<i class="fas fa-plus"></i> Add new ingredient
+</a>
+
+<table class="custom-table">
+	<thead>
+		<tr>
+			<th>@Html.DisplayNameFor(model => model.First().Name)</th>
+			<th style="text-align:center;">Actions</th>
+		</tr>
+	</thead>
+
+
+	<tbody>
+		@if (Model.Any())
+		{
+			foreach (var i in Model)
+			{
+				<tr>
+					<td>@Html.DisplayFor(m => i.Name)</td>
+					<td style="text-align: center;">
+						<a asp-action="Details" asp-route-id="@i.IngredientId" class="btn-details">
+							<i class="fas fa-eye"></i> Details
+						</a>
+						<a asp-action="Edit" asp-route-id="@i.IngredientId" class="btn-edit">
+							<i class="fas fa-edit"></i> Edit</a>
+							<a asp-action="Delete" asp-route-id="@i.IngredientId" class="btn-delete" style="margin-left: 8px;">
+								<i class="fas fa-trash-alt"></i> Delete
+							</a>
+					</td>
+				</tr>
+			}
+		}
+		else
+		{
+			<tr>
+				<td colspan="2" style="text-align:center; font-weight:bold; padding: 20px;">
+					No ingredients found.
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
